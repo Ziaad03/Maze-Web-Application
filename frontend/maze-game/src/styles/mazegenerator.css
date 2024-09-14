@@ -1,0 +1,84 @@
+.maze-grid {
+  display: inline-block;
+}
+
+.maze-row {
+  display: flex;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.robot {
+  background-color: lightgreen;
+}
+
+.treasure {
+  background-color: gold;
+}
+
+.obstacle {
+  background-color: grey;
+}
+
+.empty {
+  background-color: white;
+}
+
+.generation-section {
+  width: 500px;
+  border: 1px solid black;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 20x 20px;
+  grid-row: 10px 10px;
+  gap: 10px;
+  background-color: #d9d9d9;
+  border-radius: 20px;
+}
+
+label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  grid-row-end: 2;
+  grid-column-end: 2;
+  gap: 5px;
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #596165;
+  color: white;
+}
+button {
+  grid-row-start: 1;
+  grid-column-start: 2;
+  grid-row-end: 2;
+  grid-column-end: 3;
+  background-color: #596165;
+  border-radius: 10px;
+  color: white;
+  padding: 5px;
+  border: none;
+}
+
+.maze-container {
+  grid-row-start: 2;
+  grid-column-start: 1;
+  grid-row-end: 3;
+  grid-column-end: 3;
+  display: flex;
+  justify-content: center;
+}
