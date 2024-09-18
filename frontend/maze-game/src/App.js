@@ -7,11 +7,12 @@ import "./App.css";
 
 function App() {
   const [maze, setMaze] = useState([]);
+  // const [path, setPath] = useState([]);
   return (
     <div className="App">
       <Header />
       <div className="main">
-        <MazeGenerator maze={maze} setMaze={setMaze} />
+        <MazeGenerator maze={maze} setMaze={setMaze}  />
         <MazeSolver maze={maze} />
       </div>
     </div>

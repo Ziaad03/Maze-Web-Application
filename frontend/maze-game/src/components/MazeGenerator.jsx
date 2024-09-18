@@ -7,40 +7,73 @@ export default function MazeGenerator({ maze, setMaze }) {
 
   const generateMaze = () => {
     // Create a new unique 10x10 maze array where each row is a unique array
-    maze = Array.from({ length: 10 }, () => new Array(10).fill("E"));
+    // maze = Array.from({ length: 10 }, () => new Array(10).fill("E"));
 
-    // set the robot position
-    maze[0][0] = "R";
-    // set the treasure (goal) position
-    maze[9][9] = "T";
+    // // set the robot position
+    // maze[0][0] = "R";
+    // // set the treasure (goal) position
+    // maze[9][9] = "T";
 
-    // set obstacles in random positions
+    let obstacles = 0;
     if (difficulty === "easy") {
-      generateObstacles(maze, 10);
+      obstacles = 10;
     }
     if (difficulty === "medium") {
-      generateObstacles(maze, 20);
+      obstacles = 20;
     }
     if (difficulty === "hard") {
-      generateObstacles(maze, 30);
+      obstacles = 25;
     }
 
-    setMaze(maze);
-  };
 
-  const generateObstacles = (maze, numObstacles) => {
-    while (numObstacles > 0) {
-      let x = Math.floor(Math.random() * 10);
-      let y = Math.floor(Math.random() * 10);
-      if (maze[x][y] === "E") {
-        maze[x][y] = "O";
-        numObstacles--;
+    fetch('http://127.0.0.1:5000/generateMaze', {
+        method:'Post',
+        headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ obstacles }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    }
+      else {
+        return response.json();
+        }  // Parse the JSON response
+    })
+    .then(maze => {
+      console.log('Maze received from backend:', maze); 
+      if(maze.success){
+        setMaze(maze.answer);
+      }
+      else{
+        return (
+          <div>
+            <p> {maze.error}  </p>
+          </div>
+        );
+      } 
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    })
+
+    
   };
+
+  // const generateObstacles = (maze, numObstacles) => {
+  //   while (numObstacles > 0) {
+  //     let x = Math.floor(Math.random() * 10);
+  //     let y = Math.floor(Math.random() * 10);
+  //     if (maze[x][y] === "E") {
+  //       maze[x][y] = "O";
+  //       numObstacles--;
+  //     }
+  //   }
+  // };
 
   const renderMaze = () => {
-    if (maze.length === 0) {
+    if (maze.length === 0 ) {
       return <p>Generate a maze here</p>;
     }
 
@@ -65,7 +98,7 @@ export default function MazeGenerator({ maze, setMaze }) {
         return "robot";
       case "T":
         return "treasure";
-      case "O":
+      case "X":
         return "obstacle";
       default:
         return "empty";
